@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>TGRASS: temporal data processing with GRASS GIS</title>
+  <title>Big geodata management and analysis using GRASS GIS</title>
   <meta name="description" content="Short course TGRASS: temporal data processing with GRASS GIS">
   <meta name="author" content="Veronica Andreo, Luca Delucchi, Markus Neteler">
   <link rel="shortcut icon" href="grass.png">
@@ -35,10 +35,11 @@
   <div id="container">
     <a href="https://europe.foss4g.org/2017/" title="FOSS4G EU 2017"><img src="foss4g_eu_2017.png" width="22%" height="22%" align="left" alt="FOSS4G EU 2017 logo">
     </a><a href="https://grass.osgeo.org" title="GRASS GIS"><img src="grassgis_logo_colorlogo_text_whitebg.png" width="18.5%" height="18.5%" align="right" alt="GRASS GIS logo"></a>
-    <h1 align="center">TGRASS: temporal data processing with GRASS GIS</h1>
-    <h2 class="notoc" align="center">FOSS4G Europe 2017 workshop</h2>
+    <h1 align="center">Big geodata management and analysis using GRASS GIS</h1>
+    <h2 class="notoc" align="center">FOSS4G 2018 workshop</h2>
     <p align="center">
-    <a href="https://veroandreo.wordpress.com/" target="_blank">Veronica Andreo</a>, <a href="http://www.lucadelu.org" target="_blank">Luca Delucchi</a> and <a href="https://www.mundialis.de/en/neteler/" target="_blank">Markus Neteler</a>
+      <a href="https://veroandreo.wordpress.com/" target="_blank">Veronica Andreo</a>, Marco Ciolli, <a href="http://www.lucadelu.org" target="_blank">Luca Delucchi</a> and
+      <a href="https://www.mundialis.de/en/neteler/" target="_blank">Markus Neteler</a>
     </p>
     <p style="border-top-style: solid; border-bottom-style: solid; border-width: 5px; border-color: rgb(130, 130, 130); padding-top: 5px; padding_bottom: 5px;" align="center">
     <a href="#lst-time-series-animation" title="lst time series animation"><img style="width: 25%;" src="figures/animation_nc_zoom.gif" alt="NC to Wake LST animation"></a>
@@ -54,7 +55,7 @@
     <p>
     Software requirements:
     <ul>
-        <li>GRASS GIS 7.2: <a href="https://grass.osgeo.org/download/software/">download</a> | <a href="https://live.osgeo.org/">OSGeo-live</a></li>
+        <li>GRASS GIS 7.4: <a href="https://grass.osgeo.org/download/software/">download</a> | <a href="https://live.osgeo.org/">OSGeo-live</a></li>
         <li>
             GRASS GIS Add-ons: <a href="https://grass.osgeo.org/grass72/manuals/addons/r.modis.download.html">r.modis.download</a>,
             <a href="https://grass.osgeo.org/grass72/manuals/addons/r.modis.import.html">r.modis.import</a> and
@@ -72,7 +73,9 @@
     <ul>
         <li>Main dataset: <a href="https://grass.osgeo.org/sampledata/north_carolina/nc_basic_spm_grass7.tar.gz">North Carolina basic location (50 MB)</a>
         <ul>
-            <li>extra "mapset" <code>modis_lst</code>: monthly land surface temperature (LST) from MODIS sensor (MOD11B3.006) for North Carolina (2015-2016)</li>
+            <li>extra "mapset" <code><a href="https://grass.osgeo.org/sampledata/north_carolina/nc_spm_mapset_modis2015_2016_lst.zip">modis_lst</a></code>: 
+	    monthly land surface temperature (LST) from MODIS sensor (MOD11B3.006) for North Carolina (2015-2016). 
+	    <em>This dataset is required if you cannot download MODIS data from NASA</em></li>
         </ul>
     </ul>
     </p>
@@ -186,15 +189,20 @@
 
     <h3>Interfaces</h3>
     GRASS GIS offers different interfaces for the interaction between user and software. Let's see them...
+    
     <h4>Graphical User Interface</h4>
     The GUI is the simpler way to approach GRASS GIS. The <a href="https://grass.osgeo.org/grass72/manuals/wxGUI.html" target="_blank">GRASS GIS GUI</a> is composed of two elements, the <code>Layer Manager</code> where you can find all the GRASS GIS modules and manage your data and, the <code>Map Display</code> where you can navigate, print and query your maps. The GUI also comes with a Python shell for rapid prototyping.
     <div class="imagebox">
         <img style="width: 90%;" src="figures/GUI_description.png" alt="GRASS GIS GUI" title="GRASS GIS GUI"><br>
         GRASS GIS Graphical User Interface (GUI)
     </div>
+    
+    <h4>QGIS</h4>
     Otherwise you can also use GRASS GIS inside QGIS by either using the <code>GRASS GIS plugin</code> or through <code>Processing</code>.
+
     <h4>Command line</h4>
     The command line is the traditional and, probably, the most powerful way to use GRASS GIS, used daily by many GRASS GIS power users worldwide.
+
     <h4>Python</h4>
     Python is a powerful and simple programming language, and you can use it to:
     <ul>
@@ -202,6 +210,12 @@
         <li>create your own workflows chaining several GRASS GIS modules</li>
         <li>create new add-ons by using GRASS GIS modules along with a wide number of Python libraries.</li>
     </ul>
+    To run Python code in GRASS GIS you can use the "Simple Python editor" available in the GRASS GIS Graphical User Interface or a Python/IPython shell
+    <div class="imagebox">
+        <img style="width: 70%;" src="figures/simple_python_editor_v_buffer.png" alt="GRASS GIS GUI" title="GRASS GIS GUI"><br>
+        Simple Python editor in the GRASS GIS Graphical User Interface (GUI)
+    </div>
+    
     Here's an example of Python code to run GRASS GIS modules:
     <pre>
 		<code class="python">
@@ -228,6 +242,14 @@ r.mapcalc("%s = if(%s > %d, %s, null())" % (output, input, thresh, input), overw
 r.colors(map=output, color="elevation")
 		</code>
     </pre>
+
+    <h4>R</h4>
+    R is a programming language and free software environment for statistical computing and graphics. You can use R in GRASS GIS in two different ways:
+    <ul>
+	<li>R within a GRASS GIS session</li>
+	<li>GRASS GIS within an R session</li>
+    </ul>
+    
     <h4>WPS - OGC Web Processing Service</h4>
     It is possible to run GRASS GIS modules through the web using the <a href="https://en.wikipedia.org/wiki/Web_Processing_Service" target="_blank">Web Processing Service</a> (WPS is an <a href="https://en.wikipedia.org/wiki/Open_Geospatial_Consortium" target="_blank">OGC</a> standard). The Free and Open Source software <a href="http://zoo-project.org/" target="_blank">ZOO-Project</a> and <a href="http://pywps.org/" target="_blank">PyWPS</a> allow the user to run GRASS GIS commands in a simple way.
 
@@ -1021,7 +1043,7 @@ Alternatively, you can adjust the margin settings, zoom in to different parts of
     </ul>
     </p>
     <hr>
-    <p><i>Last changed: 2017-07-17 20:17</i></p>
+    <p><i>Last changed: 2018-08-20 15:14</i></p>
     <p>
     <a href="http://grass.osgeo.org/grass72/manuals/">GRASS GIS manual main index</a> |
     <a href="http://grass.osgeo.org/grass72/manuals/temporal.html">Temporal modules index</a> |
@@ -1032,7 +1054,7 @@ Alternatively, you can adjust the margin settings, zoom in to different parts of
     <p>
     <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" src="ccbysa.png"></a>
     <br>
-    TGRASS: temporal data processing with GRASS GIS Workshop at FOSS4G Europe 2017 by Veronica Andreo, Luca Delucchi and Markus Neteler is licensed under a <b><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a></b> - Thanks to <a href="http://www4.ncsu.edu/~vpetras/index.html" target="_blank"><b>Vaclav Petras</b></a> for the style.
+    <em>Big geodata management and analysis using GRASS GIS</em> Workshop at FOSS4G 2018 by Veronica Andreo, Marco Ciolli, Luca Delucchi and Markus Neteler is licensed under a <b><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a></b> - Thanks to <a href="http://www4.ncsu.edu/~vpetras/index.html" target="_blank"><b>Vaclav Petras</b></a> for the style.
     </p>
   </div>
 
