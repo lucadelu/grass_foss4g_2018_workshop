@@ -13,12 +13,12 @@ First steps
 
 Software requirements:
 * GRASS GIS 7.4: 
- * Stand-alone installer: https://grass.osgeo.org/download/software/
- * OSGeo-live: https://live.osgeo.org/
+  * Stand-alone installer: https://grass.osgeo.org/download/software/
+  * OSGeo-live: https://live.osgeo.org/
  
 * GRASS GIS Add-ons: 
- * r.modis: https://grass.osgeo.org/grass72/manuals/addons/r.modis
- * v.strds.stats: https://grass.osgeo.org/grass72/manuals/addons/v.strds.stats.html
+  * i.modis: https://grass.osgeo.org/grass74/manuals/addons/i.modis.html
+  * v.strds.stats: https://grass.osgeo.org/grass74/manuals/addons/v.strds.stats.html
 * pyModis library: http://www.pymodis.org
 
 Sample data:
