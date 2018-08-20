@@ -57,8 +57,8 @@
     <ul>
         <li>GRASS GIS 7.4: <a href="https://grass.osgeo.org/download/software/">download</a> | <a href="https://live.osgeo.org/">OSGeo-live</a></li>
         <li>
-            GRASS GIS Add-ons: <a href="https://grass.osgeo.org/grass72/manuals/addons/r.modis.download.html">r.modis.download</a>,
-            <a href="https://grass.osgeo.org/grass72/manuals/addons/r.modis.import.html">r.modis.import</a> and
+            GRASS GIS Add-ons: <a href="https://grass.osgeo.org/grass72/manuals/addons/i.modis.download.html">i.modis.download</a>,
+            <a href="https://grass.osgeo.org/grass72/manuals/addons/i.modis.import.html">i.modis.import</a> and
             <a href="https://grass.osgeo.org/grass72/manuals/addons/v.strds.stats.html">v.strds.stats</a>
         </li>
         <li> <a href="http://www.pymodis.org">pyModis</a> library</li>
@@ -387,11 +387,11 @@ your_NASA_password
     </tt>
     </p>
     <p>
-    The <a href="https://grass.osgeo.org/grass72/manuals/addons/r.modis.download.html" target="_blank">r.modis.download</a> directly downloads from the MODIS data server into a local folder previously created (for example: <tt>lst_modis</tt>):
+    The <a href="https://grass.osgeo.org/grass72/manuals/addons/i.modis.download.html" target="_blank">i.modis.download</a> directly downloads from the MODIS data server into a local folder previously created (for example: <tt>lst_modis</tt>):
     <pre>
         <code class="neutral">
-r.modis.download -g settings=$HOME/gisdata/SETTING product=lst_terra_monthly_5600 tiles=h11v05 startday="2015-01-01" endday="2016-12-31" folder=$HOME/lst_monthly
-r.modis.import -w files=$HOME/lst_monthly/listfileMOD11B3.006.txt spectral="( 1 )" outfile=$HOME/lst_monthly/monthly_lst_to_register.txt
+i.modis.download -g settings=$HOME/gisdata/SETTING product=lst_terra_monthly_5600 tiles=h11v05 startday="2015-01-01" endday="2016-12-31" folder=$HOME/lst_monthly
+i.modis.import -w files=$HOME/lst_monthly/listfileMOD11B3.006.txt spectral="( 1 )" outfile=$HOME/lst_monthly/monthly_lst_to_register.txt
 g.list type=raster pattern="MOD11B3*"
         </code>
         <code class="bash">
@@ -399,13 +399,13 @@ g.list type=raster pattern="MOD11B3*"
 mkdir $HOME/lst_monthly
 
 # Download data: MOD11B3 2015-2016, tile h11v05
-r.modis.download -g settings=$HOME/gisdata/SETTING \
+i.modis.download -g settings=$HOME/gisdata/SETTING \
  product=lst_terra_monthly_5600 \
  tiles=h11v05 startday="2015-01-01" endday="2016-12-31" \
  folder=$HOME/lst_monthly
 
 # Reproject from Sinusoidal to current NC projection and import maps into NC Location (Day and Night overpasses)
-r.modis.import -w files=$HOME/lst_monthly/listfileMOD11B3.006.txt \
+i.modis.import -w files=$HOME/lst_monthly/listfileMOD11B3.006.txt \
  spectral="( 1 )" \
  outfile=$HOME/lst_monthly/monthly_lst_to_register.txt
 
@@ -426,12 +426,12 @@ HOME=os.path.expanduser('~')
 os.makedirs(os.path.join(HOME, lst_monthly))
 
 # Download data: MOD11B3 2015-2016, tile h11v05
-gmod.Module("r.modis.download", flags="g", settings=os.path.join(HOME, 'gisdata', 'SETTING'),
+gmod.Module("i.modis.download", flags="g", settings=os.path.join(HOME, 'gisdata', 'SETTING'),
  product="lst_terra_monthly_5600", tiles="h11v05", startday="2015-01-01",
  endday="2016-12-31", folder=os.path.join(HOME, lst_monthly)
 
 # Reproject and import maps into NC Location (Day and Night)
-gmod.Module("r.modis.import", flags="w", files=os.path.join(HOME, 'lst_monthly', 'listfileMOD11B3.006.txt'),
+gmod.Module("i.modis.import", flags="w", files=os.path.join(HOME, 'lst_monthly', 'listfileMOD11B3.006.txt'),
  spectral="( 1 )", outfile=os.path.join(HOME, 'lst_monthly', 'monthly_lst_to_register.txt'))
 
 # Check list of imported maps
