@@ -1038,31 +1038,30 @@ Alternatively, you can adjust the margin settings, zoom in to different parts of
     </pre>
     <h3>Sentinel satellite sensor data</h3>
     <p>
-	GRASS GIS has a new set of modules to manage Sentinel data (mainly Sentinel 2 data), the different tools are able to download, import, and preprocess the data.
-	The modules until now are addons, so you have to install them through <a href="https://grass.osgeo.org/grass72/manuals/g.extension.html">g.extension</a>.
+	GRASS GIS has a new set of extensions to manage Sentinel data. These tools allow to download, import, and preprocess Sentinel-2 data.
+	Use <a href="https://grass.osgeo.org/grass74/manuals/g.extension.html">g.extension</a> to install them.
     </p>
     <pre>
         <code class="neutral">
 g.extension extension=i.sentinel
-g.extension extension=i.sentinel.prepoc
+g.extension extension=i.sentinel.preproc
 g.extension extension=i.sentinel.mask
         </code>
 	<code class="bash">
-# install i.sentinel modules, this contain
-# i.sentinel.download
-# i.sentinel.import
+# install i.sentinel modules: i.sentinel.download and i.sentinel.import
 g.extension extension=i.sentinel
-# these two are new modules developed during GSOC 2018
-# they should be added to i.sentinel modules
-g.extension extension=i.sentinel.prepoc
+# i.sentinel.preproc and i.sentinel.mask were developed during GSOC 2018.
+# They will be added to i.sentinel group soon, but so far we install them 
+# separately:
+g.extension extension=i.sentinel.preproc
 g.extension extension=i.sentinel.mask
 	</code>
     </pre>
     <p>
-	i.sentinel.download allows downloading Sentinel products from <a href="https://scihub.copernicus.eu/" target="_blank">Copernicus Open Access Hub</a>.
-	To connect Copernicus Open Access Hub an user and password are required, see <a href="https://scihub.copernicus.eu/dhus/#/self-registration" target="_blank">Register new account</a> page for signing up.
+	<a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.download.html" target="_blank">i.sentinel.download</a> allows downloading Sentinel-2 products from <a href="https://scihub.copernicus.eu/" target="_blank">Copernicus Open Access Hub</a>.
+	To connect to Copernicus Open Access Hub a user name and password are required, see <a href="https://scihub.copernicus.eu/dhus/#/self-registration" target="_blank">Register new account</a> page for signing up.
 	<br />
-	<a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.download.html" target="_blank">i.sentinel.download</a> reads user credentials from settings file.
+	<a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.download.html" target="_blank">i.sentinel.download</a> reads user credentials from a settings file.
 	Create the <i>SETTING_SENTINEL</i> file with the following content, e.g. in the directory <tt>$HOME/gisdata/</tt>:
     </p>
     <pre>
@@ -1071,7 +1070,7 @@ mypassword
     </pre>
     <p>
 	At this point you can use <a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.download.html" target="_blank">i.sentinel.download</a>
-	to search (using <tt>-l</tt> flag) and download Sentinel images.
+	to search (using <tt>-l</tt> flag) and download Sentinel scenes.
     </p>
     <pre>
         <code class="neutral">
@@ -1079,21 +1078,21 @@ i.sentinel.download -l settings=$HOME/gisdata/SETTING_SENTINEL start=2017-07-30 
 i.sentinel.download  settings=$HOME/gisdata/SETTING_SENTINEL start=2017-07-30 end=2017-07-31 order=desc out=$HOME/gisdata/ footprints=sentinel_2017_07
         </code>
 	<code class="bash">
-# search data for three days in January 2016
-# -l flag is used to print the result
+# search Sntinel-2 data for for the last days of July, 2017
+# -l flag is used to print the resulting list
 i.sentinel.download -l settings=$HOME/gisdata/SETTING_SENTINEL start=2017-07-30 end=2017-07-31 order=desc
 # download data
 i.sentinel.download settings=$HOME/gisdata/SETTING_SENTINEL start=2017-07-30 end=2017-07-31 order=desc out=$HOME/gisdata/ footprints=sentinel_2017_07
 	</code>
     </pre>
     <p>
-	Once the data are downloaded you have to import them into GRASS GIS. You have two options, you can use
+	Once the data are downloaded you have to import them into GRASS GIS. There are two options:
         <a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.import.html" target="_blank">i.sentinel.import</a> for a simpler import of the data, or
         <a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.preproc.html" target="_blank">i.sentinel.preproc</a> to import and perform atmospheric correction.
     </p>
     <p>
-	<a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.import.html" target="_blank">i.sentinel.import</a> requires only the input directory, optionally it is
-	possible to select only some of the available bands. In the following example we are going to import only 7 bands for each image.
+	<a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.import.html" target="_blank">i.sentinel.import</a> requires only the input directory where the Sentinel-2
+	scenes were downloaded. Optionally it is possible to select only some of the available bands. In the following example we are going to import only 7 bands for each image.
     </p>
     <pre>
         <code class="neutral">
@@ -1103,13 +1102,13 @@ i.sentinel.import -rc input=$HOME/gisdata/ pattern='B(02|03|04|08|8A|11|12)'
 # import the downloaded data
 # -r flag is used to reproject the data during import
 # pattern option is used to import only a subset of the available layers
-# -c flag is useful to import the cloud mask
+# -c flag allows to import the cloud mask
 i.sentinel.import -rc input=$HOME/gisdata/ pattern='B(02|03|04|08|8A|11|12)'
 	</code>
     </pre>
     <p>
-	<a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.preproc.html" target="_blank">i.sentinel.preproc</a> require more input data since it perform also the
-	atmospheric correction. It requires the image as an unzipped directory, so you have to unzip one of the previous downloaded file
+	<a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.preproc.html" target="_blank">i.sentinel.preproc</a> requires some extra inputs since it also performs
+	atmospheric correction. First, this module requires the image as an unzipped directory, so you have to unzip one of the previous downloaded files, for example:
     </p>
     <pre>
 	<code class="neutral">
@@ -1118,16 +1117,17 @@ unzip $HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205_R054_T17SQV_20170730T160022
 	</code>
     </pre>
     <p>
-	Another required input data is the visibility map, since we don't have this kind of data, it is possible to replace it with an estimated Aerosol Optical Depth (AOD) value.
-	It is possible to obtain this data from <a href="https://aeronet.gsfc.nasa.gov" target="_blank">http://aeronet.gsfc.nasa.gov</a>; in this case the useful station is
-	<a href="https://aeronet.gsfc.nasa.gov/cgi-bin/webtool_opera_v2_inv?stage=3&region=United_States_East&state=North_Carolina&site=EPA-Res_Triangle_Pk&place_code=10&if_polarized=0" target="_blank">EPA-Res_Triangle_Pk</a>,
-	select as start date 01-07-2017 and end date 30-08-2017, tick the box near the bottom labelled as 'Combined file (all products without phase functions)', choose 'All Points' under Data Format,
-	download and unzip the file into <tt>$HOME/gisdata/</tt> folder (the final file has a .dubovik extension). <br />
-	The last input data required is the elevation map. Inside the <tt>North Carolina basic location</tt> there a elevation map called <tt>elevation</tt>.
-	The <tt>elevation</tt> map has a smaller extent then our Sentinel image so if you will use this elevation map only a subset of the Sentinel image will be correcter;
-	to get a elevation map for the entire area please read the <a href="#srtm">next session</a>
-	At this point you can run <a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.preproc.html" target="_blank">i.sentinel.preproc</a> (please check wich elevation map you want to use).
-	The <tt>text_file</tt> option create a text file useful as input for <a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.mask.html" target="_blank">i.sentinel.mask</a>
+	Another required input is the visibility map. Since we don't have this kind of data, we will replace it with an estimated Aerosol Optical Depth (AOD) value.
+	It is possible to obtain AOD from <a href="https://aeronet.gsfc.nasa.gov" target="_blank">http://aeronet.gsfc.nasa.gov</a>. In this case, we will use the
+	<a href="https://aeronet.gsfc.nasa.gov/cgi-bin/webtool_opera_v2_inv?stage=3&region=United_States_East&state=North_Carolina&site=EPA-Res_Triangle_Pk&place_code=10&if_polarized=0" target="_blank">EPA-Res_Triangle_Pk</a> station,
+	select `01-07-2017` as start date and `30-08-2017` as end date, tick the box labelled as 'Combined file (all products without phase functions)' near the bottom, choose 'All Points' under Data Format,
+	and download and unzip the file into <tt>$HOME/gisdata/</tt> folder (the final file has a .dubovik extension). <br />
+	The last input data required is the elevation map. Inside the <tt>North Carolina basic location</tt> there is an elevation map called <tt>elevation</tt>.
+	The extent of the <tt>elevation</tt> map is smaller than our Sentinel-2 image's extent, so if you will use this elevation map only a subset of the Sentinel image will be atmospherically corrected;
+	to get an elevation map for the entire area please read the <a href="#srtm">next session</a>.
+	At this point you can run <a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.preproc.html" target="_blank">i.sentinel.preproc</a> (please check which elevation map you want to use).
+	The <tt>text_file</tt> option creates a text file useful as input for <a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.mask.html" target="_blank">i.sentinel.mask</a>, the next step in the
+	workflow.
     </p>
     <pre>
         <code class="neutral">
@@ -1138,8 +1138,7 @@ i.sentinel.preproc -atr input_dir=$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205
 	</code>
     </pre>
     <p>
-	Finally you can get the clouds and clouds shadows masks for the data using
-	<a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.mask.html" target="_blank">i.sentinel.mask</a>
+	Finally you can get the clouds and clouds' shadows masks for the Sentinel-2 scene using <a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.mask.html" target="_blank">i.sentinel.mask</a>.
     </p>
     <pre>
         <code class="neutral">
@@ -1152,12 +1151,13 @@ i.sentinel.mask input_file=$HOME/gisdata/sentinel_mask cloud_mask=T17SQV_2017073
     <h4>How to obtain SRTM digital elevation model</h4>
     <a name="srtm"></a>
     <p>
-      SRTM is a worldwide Digital Elevation Model with a resolution of 30 or 90 meters. GRASS GIS has two module to work with SRTM data, <a href="https://grass.osgeo.org/grass74/manuals/r.in.srtm.html" target="_blank">r.in.srtm</a>
-      to import already downloaded SRTM data and the addon <a href="https://grass.osgeo.org/grass74/manuals/addons/r.in.srtm.region.html" target="_blank">r.in.srtm.region</a>
-      which is able to download and import SRTM data for the current GRASS GIS region, <a href="https://grass.osgeo.org/grass74/manuals/addons/r.in.srtm.region.html" target="_blank">r.in.srtm.region</a>
-      is working only in a Longitude-Latitude location.
+      <a href="https://www2.jpl.nasa.gov/srtm/" target="_blank">Shuttle Radar Topography Mission (SRTM)</a> is a worldwide Digital Elevation Model with a resolution of 30 or 90 meters. 
+      GRASS GIS has two modules to work with SRTM data, <a href="https://grass.osgeo.org/grass74/manuals/r.in.srtm.html" target="_blank">r.in.srtm</a>
+      to import already downloaded SRTM data and, the addon <a href="https://grass.osgeo.org/grass74/manuals/addons/r.in.srtm.region.html" target="_blank">r.in.srtm.region</a>
+      which is able to download and import SRTM data for the current GRASS GIS computational region. However, 
+      <a href="https://grass.osgeo.org/grass74/manuals/addons/r.in.srtm.region.html" target="_blank">r.in.srtm.region</a> is working only in a Longitude-Latitude location.
     </p>
-    <p>First we need to obtain the current bounding box of the Sentinel data you want to process</p>
+    <p>First, we need to obtain the bounding box of the Sentinel data we want to process</p>
     <pre>
         <code class="neutral">
 g.region raster=T17SQV_20170730T154909_B04,T17SPV_20170730T154909_B04 -b
@@ -1166,15 +1166,24 @@ g.region raster=T17SQV_20170730T154909_B04,T17SPV_20170730T154909_B04 -b
 g.region raster=T17SQV_20170730T154909_B04,T17SPV_20170730T154909_B04 -b
 	</code>
     </pre>
-    <p>Now we have to start a new GRASS GIS session in a Longitute-Latitude location</p>
+    <p>Now, we have to start a new GRASS GIS session in a Longitute-Latitude location</p>
     <pre>
 	<code class="neutral">
-grass75 -c EPSG:4326 grassdata/longlat
+grass75 -c EPSG:4326 $HOME/grassdata/longlat
         </code>
 	<code class="bash">
-grass75 -c EPSG:4326 grassdata/longlat
+grass75 -c EPSG:4326 $HOME/grassdata/longlat
 	</code>
 	<code class="gui">
+1a. If in a new GRASS session, select "New"	in the start-up screen
+1b. Alternatively, from within a GRASS GIS session, go to "Settings --> GRASS Working environment --> Create new Location
+2. Give a name to the new location
+3. Select EPSG code as the option to create new location
+4. Search for 4326 and select it
+5. Done
+	    <div class="imagebox">
+        <img style="width: 70%;" src="figures/new_location.png" alt="Create new Location" title="Steps to create new Location from the GUI"><br>
+        </div>	
 	</code>
     </pre>
     <p>Set the right region using the values obtain before</p>
