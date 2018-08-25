@@ -1106,6 +1106,36 @@ i.sentinel.import -rc input=$HOME/gisdata/ pattern='B(02|03|04|08|8A|11|12)'
 i.sentinel.import -rc input=$HOME/gisdata/ pattern='B(02|03|04|08|8A|11|12)'
 	</code>
     </pre>
+    <p>If we look at imported images we can see they are really dark</p>
+    <pre>
+	<code class="neutral">
+d.mon wx0
+d.rgb -n red=T17SQV_20170730T154909_B04 green=T17SQV_20170730T154909_B03 blue=T17SQV_20170730T154909_B02
+d.barscale length=50 units=kilometers segment=4 fontsize=14
+d.text -b text="Sentinel original" color=black bgcolor=229:229:229 align=cc font=sans size=8
+        </code>
+    </pre>
+    <div class="imagebox">
+        <img style="width: 70%;" src="figures/sentinel_original.png" alt="Original Sentinel scene RGB" title="Original Sentinel scene RGB"><br>
+    </div>
+    <p>
+	To have a better visualization it is required to performs auto-balancing of colors for RGB bands.
+	The module to use is <a href="https://grass.osgeo.org/grass74/manuals/i.color.enhance.html" target="_blank">i.color.enhance</a><br>
+	Since <a href="https://grass.osgeo.org/grass74/manuals/i.color.enhance.html" target="_blank">i.color.enhance</a> modify the input images it could be useful to copy
+	the original data before run <a href="https://grass.osgeo.org/grass74/manuals/i.color.enhance.html" target="_blank">i.color.enhance</a>. 
+    </p>
+    <pre>
+        <code class="neutral">
+g.copy raster=T17SQV_20170730T154909_B02,T17SQV_20170730T154909_B02.ori
+g.copy raster=T17SQV_20170730T154909_B03,T17SQV_20170730T154909_B03.ori
+g.copy raster=T17SQV_20170730T154909_B04,T17SQV_20170730T154909_B04.ori
+i.colors.enhance red=T17SQV_20170730T154909_B04 green=T17SQV_20170730T154909_B03 blue=T17SQV_20170730T154909_B02
+        </code>
+    </pre>
+    <p>Now you can run again the previous code to visualize the RGB Sentinal scene and see the difference.</p>
+    <div class="imagebox">
+        <img style="width: 70%;" src="figures/sentinel_color_enhance.png" alt="Auto-balanced Sentinel scene RGB" title="Auto-balanced Sentinel scene RGB"><br>
+    </div>
     <p>
 	<a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.preproc.html" target="_blank">i.sentinel.preproc</a> requires some extra inputs since it also performs
 	atmospheric correction. First, this module requires the image as an unzipped directory, so you have to unzip one of the previous downloaded files, for example:
@@ -1136,6 +1166,19 @@ i.sentinel.preproc -atr input_dir=$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205
 	<code class="bash">
 i.sentinel.preproc -atr input_dir=$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205_R054_T17SQV_20170730T160022.SAFE elevation=elevation aeronet_file=$HOME/gisdata/170701_170831_EPA-Res_Triangle_Pk.dubovik suffix=corr text_file=$HOME/gisdata/sentinel_mask
 	</code>
+    </pre>
+    <div class="imagebox">
+        <img style="width: 45%;" src="figures/sentinel_preproc_ele.png" alt="Pre-processed Sentinel scene RGB with elevation" title="Pre-processed Sentinel scene RGB with elevation">
+        <img style="width: 45%;" src="figures/sentinel_preproc_srtm.png" alt="Pre-processed Sentinel scene RGB with SRTM" title="Pre-processed Sentinel scene RGB with SRTM"><br>
+	In the left the Sentinel scene processed with <tt>elevation</tt> map, on the right the same scene processed with <tt>SRTM</tt> map
+    </div>
+    <pre>
+	<code class="neutral">
+d.mon wx0
+d.rgb -n red=T17SQV_20170730T154909_B04.corr green=T17SQV_20170730T154909_B03.corr blue=T17SQV_20170730T154909_B02.corr
+d.barscale length=50 units=kilometers segment=4 fontsize=14
+d.text -b text="Sentinel pre-processed scene" color=black bgcolor=229:229:229 align=cc font=sans size=8
+        </code>
     </pre>
     <p>
 	Finally you can get the clouds and clouds' shadows masks for the Sentinel-2 scene using <a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.mask.html" target="_blank">i.sentinel.mask</a>.
