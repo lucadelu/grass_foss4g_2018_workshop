@@ -1056,6 +1056,11 @@ g.extension extension=i.sentinel
 g.extension extension=i.sentinel.preproc
 g.extension extension=i.sentinel.mask
 	</code>
+	<code class="python">
+gmod.Module("g.extension", extension="i.sentinel")
+gmod.Module("g.extension", extension="i.sentinel.preproc")
+gmod.Module("g.extension", extension="i.sentinel.mask")
+	</code>
     </pre>
     <p>
 	<a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.download.html" target="_blank">i.sentinel.download</a> allows downloading Sentinel-2 products from <a href="https://scihub.copernicus.eu/" target="_blank">Copernicus Open Access Hub</a>.
@@ -1084,6 +1089,10 @@ i.sentinel.download -l settings=$HOME/gisdata/SETTING_SENTINEL start=2017-07-30 
 # download data
 i.sentinel.download settings=$HOME/gisdata/SETTING_SENTINEL start=2017-07-30 end=2017-07-31 order=desc out=$HOME/gisdata/ footprints=sentinel_2017_07
 	</code>
+	<code class="python">
+gmod.Module("i.sentinel.download", flags="l" settings="$HOME/gisdata/SETTING_SENTINEL", start="2017-07-30", end="2017-07-31", order="desc")
+gmod.Module("i.sentinel.download", settings="$HOME/gisdata/SETTING_SENTINEL", start="2017-07-30", end="2017-07-31", order="desc", out="$HOME/gisdata/", footprints="sentinel_2017_07")
+	</code>
     </pre>
     <p>
 	Once the data are downloaded you have to import them into GRASS GIS. There are two options:
@@ -1104,6 +1113,9 @@ i.sentinel.import -rc input=$HOME/gisdata/ pattern='B(02|03|04|08|8A|11|12)'
 # pattern option is used to import only a subset of the available layers
 # -c flag allows to import the cloud mask
 i.sentinel.import -rc input=$HOME/gisdata/ pattern='B(02|03|04|08|8A|11|12)'
+	</code>
+	<code class="python">
+gmod.Module("i.sentinel.import", flags="rc", input="$HOME/gisdata/", pattern="'B(02|03|04|08|8A|11|12)'")
 	</code>
     </pre>
     <p>If we look at imported images we can see they are really dark</p>
@@ -1131,6 +1143,12 @@ g.copy raster=T17SQV_20170730T154909_B03,T17SQV_20170730T154909_B03.ori
 g.copy raster=T17SQV_20170730T154909_B04,T17SQV_20170730T154909_B04.ori
 i.colors.enhance red=T17SQV_20170730T154909_B04 green=T17SQV_20170730T154909_B03 blue=T17SQV_20170730T154909_B02
         </code>
+	<code class="python">
+gmod.Module("g.copy", raster="T17SQV_20170730T154909_B02,T17SQV_20170730T154909_B02.ori")
+gmod.Module("g.copy", raster="T17SQV_20170730T154909_B03,T17SQV_20170730T154909_B03.ori")
+gmod.Module("g.copy", raster="T17SQV_20170730T154909_B04,T17SQV_20170730T154909_B04.ori")
+gmod.Module("i.colors.enhance", red="T17SQV_20170730T154909_B04", green="T17SQV_20170730T154909_B03", blue="T17SQV_20170730T154909_B02")
+	</code>
     </pre>
     <p>Now you can run again the previous code to visualize the RGB Sentinal scene and see the difference.</p>
     <div class="imagebox">
@@ -1166,6 +1184,10 @@ i.sentinel.preproc -atr input_dir=$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205
 	<code class="bash">
 i.sentinel.preproc -atr input_dir=$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205_R054_T17SQV_20170730T160022.SAFE elevation=elevation aeronet_file=$HOME/gisdata/170701_170831_EPA-Res_Triangle_Pk.dubovik suffix=corr text_file=$HOME/gisdata/sentinel_mask
 	</code>
+	<code class="python">
+gmod.Module("i.sentinel.preproc", flags="atr", input_dir="$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205_R054_T17SQV_20170730T160022.SAFE",
+            elevation="elevation", aeronet_file="$HOME/gisdata/170701_170831_EPA-Res_Triangle_Pk.dubovik", suffix="corr", text_file="$HOME/gisdata/sentinel_mask")
+	</code>
     </pre>
     <div class="imagebox">
         <img style="width: 45%;" src="figures/sentinel_preproc_ele.png" alt="Pre-processed Sentinel scene RGB with elevation" title="Pre-processed Sentinel scene RGB with elevation">
@@ -1190,6 +1212,10 @@ i.sentinel.mask input_file=$HOME/gisdata/sentinel_mask cloud_mask=T17SQV_2017073
 	<code class="bash">
 i.sentinel.mask input_file=$HOME/gisdata/sentinel_mask cloud_mask=T17SQV_20170730T160022_cloud shadow_mask=T17SQV_20170730T160022_shadow mtd=$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205_R054_T17SQV_20170730T160022.SAFE/MTD_MSIL1C.xml
 	</code>
+	<code class="python">
+gmod.Module("i.sentinel.mask", input_file="$HOME/gisdata/sentinel_mask", cloud_mask="T17SQV_20170730T160022_cloud",
+            shadow_mask="T17SQV_20170730T160022_shadow", mtd="$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205_R054_T17SQV_20170730T160022.SAFE/MTD_MSIL1C.xml")
+	</code>
     </pre>
     <h4>How to obtain SRTM digital elevation model</h4>
     <a name="srtm"></a>
@@ -1208,15 +1234,15 @@ g.region raster=T17SQV_20170730T154909_B04,T17SPV_20170730T154909_B04 -b
 	<code class="bash">
 g.region raster=T17SQV_20170730T154909_B04,T17SPV_20170730T154909_B04 -b
 	</code>
+	<code class="python">
+gmod.Module("g.region", flags="p", raster="T17SQV_20170730T154909_B04,T17SPV_20170730T154909_B04")
+	</code>
     </pre>
     <p>Now, we have to start a new GRASS GIS session in a Longitute-Latitude location</p>
     <pre>
 	<code class="neutral">
 grass75 -c EPSG:4326 $HOME/grassdata/longlat
         </code>
-	<code class="bash">
-grass75 -c EPSG:4326 $HOME/grassdata/longlat
-	</code>
 	<code class="gui">
 1a. If in a new GRASS session, select "New"	in the start-up screen
 1b. Alternatively, from within a GRASS GIS session, go to "Settings --> GRASS Working environment --> Create new Location
@@ -1228,6 +1254,11 @@ grass75 -c EPSG:4326 $HOME/grassdata/longlat
         <img style="width: 70%;" src="figures/new_location.png" alt="Create new Location" title="Steps to create new Location from the GUI"><br>
         </div>	
 	</code>
+	<code class="python">
+from grass.script import create_location, gisenv
+create_location(gscript.gisenv()['GISDBASE'], "longlat", epsg=4326)
+gscript.run_command("g.mapset", location="mylonglat", mapset="PERMANENT")
+	</code>
     </pre>
     <p>Set the right region using the values obtain before</p>
     <pre>
@@ -1236,6 +1267,9 @@ g.region n=36:08:35N s=35:06:24N e=77:33:33W w=79:54:47W -p
         </code>
 	<code class="bash">
 g.region n=36:08:35N s=35:06:24N e=77:33:33W w=79:54:47W -p
+	</code>
+	<code class="python">
+gmod.Module("g.region", flags="p", n="36:08:35N", s="35:06:24N", e="77:33:33W", w="79:54:47W")
 	</code>
     </pre>
     <p>After this you need to install <a href="https://grass.osgeo.org/grass74/manuals/addons/r.in.srtm.region.html" target="_blank">r.in.srtm.region</a> and run it</p>
@@ -1250,6 +1284,10 @@ g.extension r.in.srtm.region
 # run r.in.srtm.region downloading SRTM data and import them as srtm raster map
 r.in.srtm.region output=srtm user=your_NASA_user pass=your_NASA_password
 	</code>
+	<code class="python">
+gmod.Module("g.extension", extension="r.in.srtm.region")
+gmod.Module("r.in.srtm.region", output="srtm", user="your_NASA_user", pass="your_NASA_password")
+	</code>
     </pre>
     <p>
 	You can now exit from this GRASS GIS session and restart to work in the previous one (where Sentinel data are).<br />
@@ -1261,6 +1299,10 @@ r.proj location=longlat mapset=PERMANENT input=srtm resolution=30
         </code>
 	<code class="bash">
 r.proj location=longlat mapset=PERMANENT input=srtm resolution=30
+	</code>
+	<code class="python">
+gscript.run_command("g.mapset", location="nc_basic_spm_grass7", mapset="modis_lst")
+gmod.Module("r.proj", location="longlat", mapset="PERMANENT", input="srtm", resolution=30)
 	</code>
     </pre>
     <p>
