@@ -1203,7 +1203,7 @@ gmod.Module("i.sentinel.preproc", flags="atr", input_dir="$HOME/gisdata/S2B_MSIL
     <pre>
 	<code class="neutral">
 d.mon wx0
-d.rgb -n red=T17SQV_20170730T154909_B04.corr green=T17SQV_20170730T154909_B03.corr blue=T17SQV_20170730T154909_B02.corr
+d.rgb -n red=T17SQV_20170730T154909_B04_corr green=T17SQV_20170730T154909_B03_corr blue=T17SQV_20170730T154909_B02_corr
 d.barscale length=50 units=kilometers segment=4 fontsize=14
 d.text -b text="Sentinel pre-processed scene" color=black bgcolor=229:229:229 align=cc font=sans size=8
         </code>
@@ -1233,7 +1233,7 @@ gmod.Module("i.sentinel.mask", input_file="$HOME/gisdata/sentinel_mask", cloud_m
       which is able to download and import SRTM data for the current GRASS GIS computational region. However, 
       <a href="https://grass.osgeo.org/grass74/manuals/addons/r.in.srtm.region.html" target="_blank">r.in.srtm.region</a> is working only in a Longitude-Latitude location.
     </p>
-    <p>First, we need to obtain the bounding box of the Sentinel data we want to process</p>
+    <p>First, we need to obtain the bounding box, in Longitude and Latitude on WGS84, of the Sentinel data we want to process</p>
     <pre>
         <code class="neutral">
 g.region raster=T17SQV_20170730T154909_B04,T17SPV_20170730T154909_B04 -b
