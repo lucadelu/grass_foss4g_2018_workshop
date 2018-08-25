@@ -1085,13 +1085,18 @@ i.sentinel.download  settings=$HOME/gisdata/SETTING_SENTINEL start=2017-07-30 en
 	<code class="bash">
 # search Sentinel-2 data for for the last days of July, 2017
 # -l flag is used to print the resulting list
-i.sentinel.download -l settings=$HOME/gisdata/SETTING_SENTINEL start=2017-07-30 end=2017-07-31 order=desc
+i.sentinel.download -l settings=$HOME/gisdata/SETTING_SENTINEL \
+ start=2017-07-30 end=2017-07-31 order=desc
 # download data
-i.sentinel.download settings=$HOME/gisdata/SETTING_SENTINEL start=2017-07-30 end=2017-07-31 order=desc out=$HOME/gisdata/ footprints=sentinel_2017_07
+i.sentinel.download settings=$HOME/gisdata/SETTING_SENTINEL \
+ start=2017-07-30 end=2017-07-31 order=desc out=$HOME/gisdata/ \
+ footprints=sentinel_2017_07
 	</code>
 	<code class="python">
-gmod.Module("i.sentinel.download", flags="l" settings="$HOME/gisdata/SETTING_SENTINEL", start="2017-07-30", end="2017-07-31", order="desc")
-gmod.Module("i.sentinel.download", settings="$HOME/gisdata/SETTING_SENTINEL", start="2017-07-30", end="2017-07-31", order="desc", out="$HOME/gisdata/", footprints="sentinel_2017_07")
+gmod.Module("i.sentinel.download", flags="l" settings="$HOME/gisdata/SETTING_SENTINEL",
+            start="2017-07-30", end="2017-07-31", order="desc")
+gmod.Module("i.sentinel.download", settings="$HOME/gisdata/SETTING_SENTINEL", start="2017-07-30",
+            end="2017-07-31", order="desc", out="$HOME/gisdata/", footprints="sentinel_2017_07")
 	</code>
     </pre>
     <p>
@@ -1182,7 +1187,8 @@ unzip $HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205_R054_T17SQV_20170730T160022
 i.sentinel.preproc -atr input_dir=$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205_R054_T17SQV_20170730T160022.SAFE elevation=elevation aeronet_file=$HOME/gisdata/170701_170831_EPA-Res_Triangle_Pk.dubovik suffix=corr text_file=$HOME/gisdata/sentinel_mask
         </code>
 	<code class="bash">
-i.sentinel.preproc -atr input_dir=$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205_R054_T17SQV_20170730T160022.SAFE elevation=elevation aeronet_file=$HOME/gisdata/170701_170831_EPA-Res_Triangle_Pk.dubovik suffix=corr text_file=$HOME/gisdata/sentinel_mask
+i.sentinel.preproc -atr input_dir=$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205_R054_T17SQV_20170730T160022.SAFE \
+ elevation=elevation aeronet_file=$HOME/gisdata/170701_170831_EPA-Res_Triangle_Pk.dubovik suffix=corr text_file=$HOME/gisdata/sentinel_mask
 	</code>
 	<code class="python">
 gmod.Module("i.sentinel.preproc", flags="atr", input_dir="$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205_R054_T17SQV_20170730T160022.SAFE",
@@ -1210,7 +1216,8 @@ d.text -b text="Sentinel pre-processed scene" color=black bgcolor=229:229:229 al
 i.sentinel.mask input_file=$HOME/gisdata/sentinel_mask cloud_mask=T17SQV_20170730T160022_cloud shadow_mask=T17SQV_20170730T160022_shadow mtd=$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205_R054_T17SQV_20170730T160022.SAFE/MTD_MSIL1C.xml
         </code>
 	<code class="bash">
-i.sentinel.mask input_file=$HOME/gisdata/sentinel_mask cloud_mask=T17SQV_20170730T160022_cloud shadow_mask=T17SQV_20170730T160022_shadow mtd=$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205_R054_T17SQV_20170730T160022.SAFE/MTD_MSIL1C.xml
+i.sentinel.mask input_file=$HOME/gisdata/sentinel_mask cloud_mask=T17SQV_20170730T160022_cloud \
+ shadow_mask=T17SQV_20170730T160022_shadow mtd=$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205_R054_T17SQV_20170730T160022.SAFE/MTD_MSIL1C.xml
 	</code>
 	<code class="python">
 gmod.Module("i.sentinel.mask", input_file="$HOME/gisdata/sentinel_mask", cloud_mask="T17SQV_20170730T160022_cloud",
