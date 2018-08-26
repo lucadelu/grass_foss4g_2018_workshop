@@ -1224,6 +1224,19 @@ gmod.Module("i.sentinel.mask", input_file="$HOME/gisdata/sentinel_mask", cloud_m
             shadow_mask="T17SQV_20170730T160022_shadow", mtd="$HOME/gisdata/S2B_MSIL1C_20170730T154909_N0205_R054_T17SQV_20170730T160022.SAFE/MTD_MSIL1C.xml")
 	</code>
     </pre>
+    <p>At this point we can visualize the output of <a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.mask.html" target="_blank">i.sentinel.mask</a>.</p>
+    <pre>
+	<code class="neutral">
+d.mon wx0
+d.rgb -n red=T17SQV_20170730T154909_B04_corr green=T17SQV_20170730T154909_B03_corr blue=T17SQV_20170730T154909_B02_corr
+d.vect T17SQV_20170730T160022_cloud fill_color=red
+d.barscale length=50 units=kilometers segment=4 fontsize=14
+d.text -b text="Cloud mask in red" color=black bgcolor=229:229:229 align=cc font=sans size=8
+        </code>
+    </pre>
+    <div class="imagebox">
+        <img style="width: 70%;" src="figures/sentinel_cloud.png" alt="Auto-balanced Sentinel scene RGB" title="Auto-balanced Sentinel scene RGB"><br>
+    </div>
     <h4>How to obtain SRTM digital elevation model</h4>
     <a name="srtm"></a>
     <p>
