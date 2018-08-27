@@ -955,15 +955,38 @@ gmod.Module("t.rast.list", input="LST_Day_mean_6month")
     <p>Now, we will extract the 3-month average LST for points in a vector map. We will use the vector map <tt>points_of_interest</tt> that is already available in the PERMANENT mapset of NC Location. There are different commands that allow us to perform this task, but we'll use <a href="https://grass.osgeo.org/grass72/manuals/t.rast.what.html" target="_blank">t.rast.what</a>. This module samples a STRDS at specific vector point coordinates and writes the output to stdout using different layouts. You might explore the options available in the parameter <tt>layout</tt> to see the different ways to write the output.</p>
     <pre>
         <code class="neutral">
-t.rast.what points=points_of_interest strds=LST_Day_mean_6month output=trastwhat_output.csv null_value=NA separator=comma
+t.rast.what -n points=points_of_interest strds=LST_Day_mean_6month null_value=NA separator=comma
+
+x,y,start,end,value
+646341.7386813260,218873.7305680360,2015-01-01 00:00:00,2015-07-01 00:00:00,19.3766666666667
+646341.7386813260,218873.7305680360,2015-07-01 00:00:00,2016-01-01 00:00:00,23.4166666666667
+646341.7386813260,218873.7305680360,2016-01-01 00:00:00,2016-07-01 00:00:00,20.5866666666667
+646341.7386813260,218873.7305680360,2016-07-01 00:00:00,2017-01-01 00:00:00,24.2266666666667
+637772.0990144430,218842.8055776100,2015-01-01 00:00:00,2015-07-01 00:00:00,19.16
+637772.0990144430,218842.8055776100,2015-07-01 00:00:00,2016-01-01 00:00:00,23.25
+637772.0990144430,218842.8055776100,2016-01-01 00:00:00,2016-07-01 00:00:00,19.67
+637772.0990144430,218842.8055776100,2016-07-01 00:00:00,2017-01-01 00:00:00,23.81
+
+
+t.rast.what -n points=points_of_interest strds=LST_Day_mean_6month output=trastwhat_output.csv null_value=NA separator=comma
         </code>
         <code class="bash">
-t.rast.what points=points_of_interest strds=LST_Day_mean_6month output=trastwhat_output.csv \
+# Print STRDS values for the points with header (-n flag)
+t.rast.what -n points=points_of_interest strds=LST_Day_mean_6month null_value=NA separator=comma
+
+# Write STRDS values for the points to a csv file
+t.rast.what -n points=points_of_interest strds=LST_Day_mean_6month output=trastwhat_output.csv \
  null_value=NA separator=comma
         </code>
         <code class="python">
-gmod.Module("t.rast.what", points="points_of_interest", strds="LST_Day_mean_6month",
-            output="trastwhat_output.csv", null_value="NA", separator="comma")
+# Print STRDS values for the points with header (-n flag)
+gmod.Module("t.rast.what", flags="n", points="points_of_interest",
+            strds="LST_Day_mean_6month", null_value="NA", separator="comma")
+
+# Write STRDS values for the points to a csv file
+gmod.Module("t.rast.what", flags="n", points="points_of_interest",
+            strds="LST_Day_mean_6month", output="trastwhat_output.csv",
+	    null_value="NA", separator="comma")
         </code>
     </pre>
     <p>Even though the most common is to extract raster data to points, we may also be interested in getting spatially aggregated time series data for polygons. GRASS GIS has an add-on for this: <a href="https://grass.osgeo.org/grass72/manuals/addons/v.strds.stats.html" target="_blank">v.strds.stats</a>. It calculates zonal statistics of each raster in a STRDS and writes the output to the attribute table of a new polygon vector map. We first need to install the add-on through <a href="https://grass.osgeo.org/grass72/manuals/g.extension.html">g.extension</a>. Then, we will extract the average, minimum and maximum monthly LST for the different geologic types in NC.</p>
