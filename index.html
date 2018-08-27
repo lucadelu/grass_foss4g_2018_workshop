@@ -1054,22 +1054,14 @@ Alternatively, you can adjust the margin settings, zoom in to different parts of
     <pre>
         <code class="neutral">
 g.extension extension=i.sentinel
-g.extension extension=i.sentinel.preproc
-g.extension extension=i.sentinel.mask
         </code>
 	<code class="bash">
-# install i.sentinel modules: i.sentinel.download and i.sentinel.import
+# install i.sentinel modules: i.sentinel.download, i.sentinel.import
+# i.sentinel.preproc and i.sentinel.mask
 g.extension extension=i.sentinel
-# i.sentinel.preproc and i.sentinel.mask were developed during GSOC 2018.
-# They will be added to i.sentinel group soon, but so far we install them 
-# separately:
-g.extension extension=i.sentinel.preproc
-g.extension extension=i.sentinel.mask
 	</code>
 	<code class="python">
 gmod.Module("g.extension", extension="i.sentinel")
-gmod.Module("g.extension", extension="i.sentinel.preproc")
-gmod.Module("g.extension", extension="i.sentinel.mask")
 	</code>
     </pre>
     <p>
