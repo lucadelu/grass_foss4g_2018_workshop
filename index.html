@@ -1040,7 +1040,7 @@ g.gui.mapswipe first=LST_Day_monthly_celsius_6 second=LST_Day_monthly_celsius_12
     <p>Another tool to visualize time series in more dynamic way and that allows us to see changes in space an time simultaneously is <a href="https://grass.osgeo.org/grass72/manuals/g.gui.animation.html" target="_blank">g.gui.animation</a>. It also allows to animate vector time series, as well as lists of raster or vector maps not specifically registered as time series. When executed from command line, options are more limited than when the module is run from the GUI, where it is possible to add different decorations and customize several options.</p>
     <pre>
         <code class="neutral">
-g.gui.animation strds=LST_Day_monthly_celsius@modis_lst
+g.gui.animation strds=LST_Day_monthly_celsius
         </code>
         <code class="gui">
 1. Add a new animation (you can add up to 4 animations).
@@ -1063,7 +1063,7 @@ g.gui.animation strds=LST_Day_monthly_celsius@modis_lst
     <p>Finally, if you want to plot the time series of our variable of interest, be it in a STRDS or a STVDS, for a specific point of your study region, GRASS GIS has <a href="https://grass.osgeo.org/grass72/manuals/g.gui.tplot.html" target="_blank">g.gui.tplot</a>. Basically, you need to set the strds or stvds and a pair of X,Y coordinates. The latter can be typed directly, copied from the map display and pasted or directly chosen from the display. See instructions below.</p>
     <pre>
         <code class="neutral">
-g.gui.tplot strds=LST_Day_monthly_celsius@modis_lst coordinates=419604.018913,215736.80063
+g.gui.tplot strds=LST_Day_monthly_celsius coordinates=419604.018913,215736.80063
         </code>
         <code class="gui">
 1. Select the STRDS.
