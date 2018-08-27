@@ -1111,7 +1111,7 @@ mypassword
     </pre>
     <p>
 	At this point you can use <a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.download.html" target="_blank">i.sentinel.download</a>
-	to search (using <tt>-l</tt> flag) and download Sentinel scenes.
+	to search (using <tt>-l</tt> flag) and download Sentinel-2 scenes.
     </p>
     <pre>
         <code class="neutral">
@@ -1142,7 +1142,7 @@ gmod.Module("i.sentinel.download", settings="$HOME/gisdata/SETTING_SENTINEL", st
     </p>
     <p>
 	<a href="https://grass.osgeo.org/grass74/manuals/addons/i.sentinel.import.html" target="_blank">i.sentinel.import</a> requires only the input directory where the Sentinel-2
-	scenes were downloaded. Optionally it is possible to select only some of the available bands. In the following example we are going to import only 7 bands for each image.
+	scenes were downloaded. Optionally, it is possible to select only some of the available bands. In the following example we are going to import only 7 bands for each image.
     </p>
     <pre>
         <code class="neutral">
@@ -1159,7 +1159,7 @@ i.sentinel.import -rc input=$HOME/gisdata/ pattern='B(02|03|04|08|8A|11|12)'
 gmod.Module("i.sentinel.import", flags="rc", input="$HOME/gisdata/", pattern="'B(02|03|04|08|8A|11|12)'")
 	</code>
     </pre>
-    <p>If we look at imported images we can see they are really dark</p>
+    <p>If we display the imported images, we can see that they appear really dark</p>
     <pre>
 	<code class="neutral">
 d.mon wx0
@@ -1172,26 +1172,19 @@ d.text -b text="Sentinel original" color=black bgcolor=229:229:229 align=cc font
         <img style="width: 70%;" src="figures/sentinel_original.png" alt="Original Sentinel scene RGB" title="Original Sentinel scene RGB"><br>
     </div>
     <p>
-	To have a better visualization it is required to performs auto-balancing of colors for RGB bands.
-	The module to use is <a href="https://grass.osgeo.org/grass74/manuals/i.color.enhance.html" target="_blank">i.color.enhance</a><br>
-	Since <a href="https://grass.osgeo.org/grass74/manuals/i.color.enhance.html" target="_blank">i.color.enhance</a> modify the input images it could be useful to copy
-	the original data before run <a href="https://grass.osgeo.org/grass74/manuals/i.color.enhance.html" target="_blank">i.color.enhance</a>. 
+	To have a better visualization, it is required to perform color auto-balancing for RGB bands. 
+	The module to use is <a href="https://grass.osgeo.org/grass74/manuals/i.colors.enhance.html" target="_blank">i.color.enhance</a>.
+	This module modifies the color table of each image band to provide a more natural color mixture, but the base data remains untouched. 
     </p>
     <pre>
         <code class="neutral">
-g.copy raster=T17SQV_20170730T154909_B02,T17SQV_20170730T154909_B02.ori
-g.copy raster=T17SQV_20170730T154909_B03,T17SQV_20170730T154909_B03.ori
-g.copy raster=T17SQV_20170730T154909_B04,T17SQV_20170730T154909_B04.ori
 i.colors.enhance red=T17SQV_20170730T154909_B04 green=T17SQV_20170730T154909_B03 blue=T17SQV_20170730T154909_B02
         </code>
 	<code class="python">
-gmod.Module("g.copy", raster="T17SQV_20170730T154909_B02,T17SQV_20170730T154909_B02.ori")
-gmod.Module("g.copy", raster="T17SQV_20170730T154909_B03,T17SQV_20170730T154909_B03.ori")
-gmod.Module("g.copy", raster="T17SQV_20170730T154909_B04,T17SQV_20170730T154909_B04.ori")
 gmod.Module("i.colors.enhance", red="T17SQV_20170730T154909_B04", green="T17SQV_20170730T154909_B03", blue="T17SQV_20170730T154909_B02")
 	</code>
     </pre>
-    <p>Now you can run again the previous code to visualize the RGB Sentinal scene and see the difference.</p>
+    <p>Now you can run again the previous piece of code to visualize the RGB combination of the Sentinel-2 scene and observe the difference.</p>
     <div class="imagebox">
         <img style="width: 70%;" src="figures/sentinel_color_enhance.png" alt="Auto-balanced Sentinel scene RGB" title="Auto-balanced Sentinel scene RGB"><br>
     </div>
@@ -1234,7 +1227,7 @@ gmod.Module("i.sentinel.preproc", flags="atr", input_dir="$HOME/gisdata/S2B_MSIL
     <div class="imagebox">
         <img style="width: 45%;" src="figures/sentinel_preproc_ele.png" alt="Pre-processed Sentinel scene RGB with elevation" title="Pre-processed Sentinel scene RGB with elevation">
         <img style="width: 45%;" src="figures/sentinel_preproc_srtm.png" alt="Pre-processed Sentinel scene RGB with SRTM" title="Pre-processed Sentinel scene RGB with SRTM"><br>
-	In the left the Sentinel scene processed with <tt>elevation</tt> map, on the right the same scene processed with <tt>SRTM</tt> map
+	On the left the Sentinel-2 scene processed with <tt>elevation</tt> map, on the right the same scene processed with <tt>SRTM</tt> map
     </div>
     <pre>
 	<code class="neutral">
