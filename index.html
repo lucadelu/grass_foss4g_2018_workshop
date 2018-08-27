@@ -699,9 +699,13 @@ MOD11B3.A2016153.h11v05.single_LST_Day_6km|2016-06-01 00:00:00
         </code>
     </pre>
     <p>
-	To explore a bit more our time series, we will obtain univariate statistics for the maps in the STRDS. There's a dedicated module for that: <a href="https://grass.osgeo.org/grass72/manuals/t.rast.univar.html" target="_blank">t.rast.univar</a>. There's also the possibility to obtain extended statistics such as first quartile, median value, third quartile and percentile 90 by setting the <tt>e</tt> flag. Let's see:</p>
+	To explore a bit more our time series, we will obtain univariate statistics for the maps in the STRDS. There's a dedicated module for that: <a href="https://grass.osgeo.org/grass72/manuals/t.rast.univar.html" target="_blank">t.rast.univar</a>.
+	There's also the possibility to obtain extended statistics such as first quartile, median value, third quartile and percentile 90 by setting the <tt>e</tt> flag.
+	Since we start to run analysis it is better to set the computational region to match with the rasters. Let's see:</p>
     <pre>
         <code class="neutral">
+g.region raster=MOD11B3.A2015001.h11v05.single_LST_Day_6km@modis_lst -p
+
 t.rast.univar input=LST_Day_monthly
 
 id|start|end|mean|min|max|mean_of_abs|stddev|variance|coeff_var|sum|null_cells|cells
@@ -721,6 +725,9 @@ MOD11B3.A2015091.h11v05.single_LST_Day_6km@modis_lst|2015-04-01 00:00:00|2015-05
 t.rast.univar input=LST_Day_monthly separator=comma output=stats_LST_Day_monthly.csv
         </code>
         <code class="bash">
+# Set the computational region match to one of the raster
+g.region raster=MOD11B3.A2015001.h11v05.single_LST_Day_6km@modis_lst -p
+
 # Print univariate stats for maps within STRDS
 t.rast.univar input=LST_Day_monthly
 
@@ -731,6 +738,9 @@ t.rast.univar -e input=LST_Day_monthly
 t.rast.univar input=LST_Day_monthly separator=comma output=stats_LST_Day_monthly.csv
         </code>
         <code class="python">
+# Set the computational region match to one of the raster
+gmod.Module("g.region", flags="p", raster="MOD11B3.A2015001.h11v05.single_LST_Day_6km@modis_lst")
+
 # Print univarite statistics with the Python library
 tgis.print_gridded_dataset_univar_statistics("strds", "LST_Day_monthly@modis_lst", None, None, False, False, ",", False)
 
