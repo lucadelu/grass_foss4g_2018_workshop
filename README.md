@@ -17,8 +17,11 @@ Software requirements:
   * OSGeo-live: https://live.osgeo.org/
  
 * GRASS GIS Add-ons: 
-  * i.modis: https://grass.osgeo.org/grass74/manuals/addons/i.modis.html
-  * v.strds.stats: https://grass.osgeo.org/grass74/manuals/addons/v.strds.stats.html
+  * i.modis: https://grass.osgeo.org/grass7/manuals/addons/i.modis.html
+  * i.sentinel.*: 
+    * https://grass.osgeo.org/grass7/manuals/addons/i.sentinel.download.html
+    * https://grass.osgeo.org/grass7/manuals/addons/i.sentinel.import.html
+  * v.strds.stats: https://grass.osgeo.org/grass7/manuals/addons/v.strds.stats.html
 * pyModis library: http://www.pymodis.org
 
 Sample data:
@@ -54,4 +57,4 @@ Some other content is included too:
 * GRASS GIS CSS file
 * Python and CC logos
 
-See specific files for thier licenses.
+See specific files for their licenses.
