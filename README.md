@@ -6,7 +6,14 @@ This repo was created for the workshop **Big geodata management and analysis usi
 Abstract
 --------
 
-Earth Observation (EO) big data are nowadays easily accessible and consist of long time-spanning data series which are often used to perform different kinds of analysis in several fields of application. During this workshop we will show how to manage and analyze big EO data in a simple way with GRASS GIS using its temporal framework (TGRASS). GRASS GIS is a Free and Open Source geographic information system (GIS) with support for raster, 3D raster and vector data processing. It provides more than 400 core modules, plus hundreds of Add-ons, to run any kind of geographical analysis. GRASS GIS offers a useful graphical interface to make it user friendly like any other desktop GIS software. Importantly, it also offers the capabilities to be used as a backend tool to run analysis in an automatic way, not only in a personal computer, but also within HPC systems. The GRASS GIS temporal framework is composed of more than 60 GRASS GIS modules able to manage, modify, analyse, extract and export big series of data in a really simple way. The workshop will start showing the basics about GRASS GIS and it will continue processing data with the TGRASS. The workshop will be an intuitive mix of theoretical and hands-on sections using MODIS and Copernicus Sentinel-2 data.
+Earth Observation (EO) big data are nowadays easily accessible and consist of long time-spanning data series which are often used to perform different kinds
+of analysis in several fields of application. During this workshop we will show how to manage and analyze big EO data in a simple way with GRASS GIS
+using its temporal framework (TGRASS). GRASS GIS is a Free and Open Source geographic information system (GIS) with support for raster, 3D raster and vector
+data processing. It provides more than 400 core modules, plus hundreds of Add-ons, to run any kind of geographical analysis. GRASS GIS offers a useful graphical
+interface to make it user friendly like any other desktop GIS software. Importantly, it also offers the capabilities to be used as a backend tool to run analysis
+in an automatic way, not only in a personal computer, but also within HPC systems. The GRASS GIS temporal framework is composed of more than 60 GRASS GIS modules
+able to manage, modify, analyse, extract and export big series of data in a really simple way. The workshop will start showing the basics about GRASS GIS and it
+will continue processing data with the TGRASS. The workshop will be an intuitive mix of theoretical and hands-on sections using MODIS and Copernicus Sentinel-2 data.
 
 First steps
 -----------
@@ -17,14 +24,20 @@ Software requirements:
   * OSGeo-live: https://live.osgeo.org/
  
 * GRASS GIS Add-ons: 
-  * i.modis: https://grass.osgeo.org/grass74/manuals/addons/i.modis.html
-  * v.strds.stats: https://grass.osgeo.org/grass74/manuals/addons/v.strds.stats.html
+  * i.modis: https://grass.osgeo.org/grass7/manuals/addons/i.modis.html
+  * i.sentinel: 
+    * https://grass.osgeo.org/grass7/manuals/addons/i.sentinel.download.html
+    * https://grass.osgeo.org/grass7/manuals/addons/i.sentinel.import.html
+    * https://grass.osgeo.org/grass7/manuals/addons/i.sentinel.preproc.html
+    * https://grass.osgeo.org/grass7/manuals/addons/i.sentinel.mask.html
+  * v.strds.stats: https://grass.osgeo.org/grass7/manuals/addons/v.strds.stats.html
 * pyModis library: http://www.pymodis.org
 
 Sample data:
 * North Carolina basic location (50 MB): https://grass.osgeo.org/sampledata/north_carolina/nc_basic_spm_grass7.tar.gz
 
-Register at NASA to be able to download MODIS data (https://urs.earthdata.nasa.gov/users/new). Once registered, log in and go to your profile page. In **My application** tab, approve the following applications *LP DAAC Data Pool* and *Earthdata Search*.
+Register at NASA to be able to download MODIS data (https://urs.earthdata.nasa.gov/users/new).
+Once registered, log in and go to your profile page. In **My application** tab, approve the following applications *LP DAAC Data Pool* and *Earthdata Search*.
 
 Enjoy! 
 
@@ -54,4 +67,4 @@ Some other content is included too:
 * GRASS GIS CSS file
 * Python and CC logos
 
-See specific files for thier licenses.
+See specific files for their licenses.
